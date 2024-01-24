@@ -4,7 +4,7 @@ import LoginScreen from './src/Screens/LoginScreen';
 
 export default function App() {
   return (
-    <View className="flex-1 justify-center">
+    <View>
       <LoginScreen />
     </View>
   );
