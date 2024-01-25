@@ -14,13 +14,13 @@ const LoginScreen = () => {
 
     console.log(values)
     return (
-        <KeyboardAwareScrollView>
+        <KeyboardAwareScrollView className="bg-black">
             <View>
                 <Image source={backImage} className={`object-cover h-80 w-full`}/>
             </View>
             <View className="bg-white h-screen rounded-t-3xl mt-4">
                 <Text className="text-[#d60e45] text-3xl font-semibold text-center py-3 mt-3">
-                    Sign in{" "}
+                    Sign In{" "}
                 </Text>
                 <View className='items-center w-full justify-center'>
                     <TextInput 
@@ -28,6 +28,7 @@ const LoginScreen = () => {
                         placeholder='Enter Email'
                         keyboard='email-address'
                         textContentType='emailAddress'
+                        autoCapitalize='none'
                         value={values?.email}
                         onChangeText={(text) => handleChange('email', text)}
                     />
@@ -42,10 +43,16 @@ const LoginScreen = () => {
                     />
                 </View>
                 <TouchableOpacity className='bg-[#fac25a] py-2 rounded-md mx-10 mb-16 mt-3'>
-                    <Text className='text-center text-white'>
+                    <Text className='text-center text-white font-semibold text-lg'>
                         Log in
                     </Text>
                 </TouchableOpacity>
+                <View className='flex-row space-x-2 justify-center'>
+                    <Text>Don't have an account?</Text>
+                    <TouchableOpacity>
+                        <Text className="text-[#d60e45] font-medium">Sign Up</Text>
+                    </TouchableOpacity>
+                </View>
             </View>
         </KeyboardAwareScrollView>
     );
