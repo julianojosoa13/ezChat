@@ -5,7 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 
 const backImage = require("../../assets/background_signup.jpg")
 
-const SingupScreen = () => {
+const RegisterScreen = ({navigation}) => {
   const [values, setValues] = useState()
 
   const handleChange = (key, value) => {
@@ -57,7 +57,7 @@ const SingupScreen = () => {
         </TouchableOpacity>
         <View className='flex-row space-x-2 justify-center'>
             <Text>Already have an account?</Text>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                 <Text className="text-[#d60e45] font-medium">Sign In</Text>
             </TouchableOpacity>
         </View>
@@ -66,4 +66,4 @@ const SingupScreen = () => {
   )
 }
 
-export default SingupScreen
+export default RegisterScreen
