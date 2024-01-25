@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { createUserWithEmailAndPassword } from '@firebase/auth';
-import { auth } from '../../firebase/config';
+import { auth, db } from '../../firebase/config';
+import { addDoc, collection } from '@firebase/firestore';
 
 const backImage = require("../../assets/background_signup.jpg")
 const RegisterScreen = ({navigation}) => {
@@ -20,8 +21,16 @@ const RegisterScreen = ({navigation}) => {
         if(password !== confirmPassword) {
             Alert.alert("Password do not match")
         } else {
-            const response = await createUserWithEmailAndPassword(auth, email, password)
-            console.log("Response :>> ", response)
+            try {
+                const res = await createUserWithEmailAndPassword(auth, email, password)
+                await addDoc(collection(db, "Users"), {
+                    userId: res.user.uid,
+                    email: res.user.email,
+                    username: res.user.email.split("@")[0],
+                } ) 
+            } catch(e) {
+                console.log(e)
+            }
         }
     }
   }

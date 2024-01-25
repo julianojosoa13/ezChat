@@ -23,8 +23,9 @@ const RootNavigator = () => {
       if(user){
         setUser(user)
         setIsLoading(false)
+      } else {
+        setIsLoading(false) 
       }
-      setIsLoading(false) 
     })
   }, [])
 
