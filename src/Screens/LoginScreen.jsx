@@ -1,7 +1,9 @@
 //import liraries
+import { signInWithEmailAndPassword } from '@firebase/auth';
 import React, { useState } from 'react';
-import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { auth } from '../../firebase/config';
 
 const backImage = require("../../assets/background_signin.jpg")
 
@@ -10,6 +12,19 @@ const LoginScreen = ({navigation}) => {
     const [values, setValues] = useState()
     const handleChange = (key, value) => {
         setValues({...values, [key]: value})
+    }
+
+    const handleLogin = async () => {
+        if(values?.email !== "" & values?.password !== "") {
+            const {email, password} = values
+            try {
+                const response = await signInWithEmailAndPassword(auth, email, password)
+                console.log(response)
+            } catch(e) {
+                console.log(e)
+                Alert.alert("Error","Username or password incorrect!")
+            }
+        }
     }
 
     return (
@@ -41,7 +56,7 @@ const LoginScreen = ({navigation}) => {
                         autoCapitalize='none'
                     />
                 </View>
-                <TouchableOpacity className='bg-[#fac25a] py-2 rounded-md mx-10 mb-16 mt-3'>
+                <TouchableOpacity className='bg-[#fac25a] py-2 rounded-md mx-10 mb-16 mt-3' onPress={handleLogin}>
                     <Text className='text-center text-white font-semibold text-lg'>
                         Log in
                     </Text>
