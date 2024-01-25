@@ -1,6 +1,6 @@
 //import liraries
-import React, { Component, useState } from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Image, TextInput, TouchableOpacity } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 
 const backImage = require("../../assets/background_signin.jpg")
@@ -12,7 +12,6 @@ const LoginScreen = ({navigation}) => {
         setValues({...values, [key]: value})
     }
 
-    console.log(values)
     return (
         <KeyboardAwareScrollView className="bg-black">
             <View>
