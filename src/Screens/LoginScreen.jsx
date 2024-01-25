@@ -1,6 +1,6 @@
 //import liraries
 import { signInWithEmailAndPassword } from '@firebase/auth';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { auth } from '../../firebase/config';
@@ -19,7 +19,7 @@ const LoginScreen = ({navigation}) => {
             const {email, password} = values
             try {
                 const response = await signInWithEmailAndPassword(auth, email, password)
-                console.log(response)
+                console.log("User :>>",response.user)
             } catch(e) {
                 console.log(e)
                 Alert.alert("Error","Username or password incorrect!")
