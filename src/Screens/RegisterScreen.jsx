@@ -1,15 +1,29 @@
 //import liraries
 import React, {useState} from 'react';
-import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
+import { createUserWithEmailAndPassword } from '@firebase/auth';
+import { auth } from '../../firebase/config';
 
 const backImage = require("../../assets/background_signup.jpg")
-
 const RegisterScreen = ({navigation}) => {
   const [values, setValues] = useState()
 
   const handleChange = (key, value) => {
     setValues({...values, [key]: value})
+  }
+
+  const onHandleRegister = async () => {
+    if(values?.email !== "" && values?.password !== "" & values?.confirmPassword !== "") {
+        const {email, password, confirmPassword} = values
+        
+        if(password !== confirmPassword) {
+            Alert.alert("Password do not match")
+        } else {
+            const response = await createUserWithEmailAndPassword(auth, email, password)
+            console.log("Response :>> ", response)
+        }
+    }
   }
 
   return (
@@ -50,7 +64,7 @@ const RegisterScreen = ({navigation}) => {
                     autoCapitalize='none'
                 />
             </View>
-            <TouchableOpacity className='bg-[#fac25a] py-2 rounded-md mx-10 mb-16 mt-3'>
+            <TouchableOpacity className='bg-[#fac25a] py-2 rounded-md mx-10 mb-16 mt-3' onPress={onHandleRegister}>
                 <Text className='text-center text-white font-semibold text-lg'>
                     Register
                 </Text>
