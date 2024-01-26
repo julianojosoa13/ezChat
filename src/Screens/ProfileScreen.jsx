@@ -1,4 +1,4 @@
-import { View, Text, Button, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { signOut } from '@firebase/auth'
 import { auth, db } from '../../firebase/config'
@@ -9,7 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {ref, getStorage, uploadBytes, getDownloadURL} from "firebase/storage"
 
 const ProfileScreen = ({navigation}) => {
-  const {user,setUser} = useContext(AuthenticatedUserContext)
+  const {user,setUser, setUserAvatarURL} = useContext(AuthenticatedUserContext)
   const storage = getStorage()
 
   const [userData, setUserData] = useState({username: "", userEmail: ""})
@@ -32,9 +32,10 @@ const ProfileScreen = ({navigation}) => {
     const querySnapshot = await getDocs(queryResult)
     querySnapshot.forEach((doc) => {
       if(username === "") {
-        const {username, email} = doc.data()
+        const {username, email, profilePic} = doc.data()
         setValue("username", username)
         setValue("userEmail", email)
+        setUserImageURL(profilePic)
       }
     })
   }
@@ -70,6 +71,7 @@ const ProfileScreen = ({navigation}) => {
             profilePic: downloadURL
           }).then(()=>{
             setUserImageURL(downloadURL)
+            setUserAvatarURL(downloadURL)
             setIsLoading(false)
           })
         })
@@ -106,7 +108,16 @@ const ProfileScreen = ({navigation}) => {
         </Text>
       </View>
       <TouchableOpacity className="rounded-md bg-gray-400 items-center justify-center mx-10 mb-10" onPress={pickImage}>
-        <Ionicons name="camera" size={50} color="white" />
+        {userImageURL === undefined ?(
+          <Ionicons name="camera" size={50} color="white" />
+        ) : isLoading? (
+          <ActivityIndicator size={"large"} color="white"/>
+        ) : (
+          <Image source={{uri: userImageURL}} className="h-40 w-full rounded-md" resizeMode='cover'/>
+        )
+
+        }
+        
       </TouchableOpacity>
       <View className="items-center">
         <Text className="tracking-widest bg-gray-200 rounded-lg w-80 text-base py-2 px-2 mx-3 mb-5 font-light text-blue-500">{username}</Text>

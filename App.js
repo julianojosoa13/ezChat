@@ -28,9 +28,6 @@ const RootNavigator = () => {
       }
     })
   }, [])
-
-  console.log("User :>> ", user)
-  console.log("Loading :>> ", isLoading)
   
   return (
     <NavigationContainer>
