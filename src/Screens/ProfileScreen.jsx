@@ -3,14 +3,23 @@ import React, { useContext, useEffect, useState } from 'react'
 import { signOut } from '@firebase/auth'
 import { auth, db } from '../../firebase/config'
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext'
-import { collection, getDocs, query, where } from 'firebase/firestore'
+import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore'
 import {Ionicons} from "@expo/vector-icons"
+import * as ImagePicker from 'expo-image-picker';
+import {ref, getStorage, uploadBytes, getDownloadURL} from "firebase/storage"
 
 const ProfileScreen = ({navigation}) => {
   const {user,setUser} = useContext(AuthenticatedUserContext)
+  const storage = getStorage()
 
   const [userData, setUserData] = useState({username: "", userEmail: ""})
+  const [userImageURL, setUserImageURL] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+
   const {username, userEmail} = userData
+
+  const userRef = collection(db, "Users")
+  const queryResult = query(userRef,where("email", "==", user.email)) 
 
   const setValue = (key, value) => {
     setUserData((oldData) => ({
@@ -30,12 +39,52 @@ const ProfileScreen = ({navigation}) => {
     })
   }
 
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      uploadImage(result.assets[0].uri);
+    }
+  };
+
+  const uploadImage = async (image) => {
+    try {
+      setIsLoading(true)
+      const response = await fetch(image)
+      const blob = await response.blob()
+      const filename = image.substring(image.lastIndexOf("/"))
+      const imageRef = ref(storage, `ProfilePictures/${filename}`)
+      uploadBytes(imageRef, blob).then( async () => {
+        const downloadURL = await getDownloadURL(imageRef)
+        const querySnapshot = await getDocs(queryResult)
+        querySnapshot.forEach(async (document) => {
+          await updateDoc(doc(db, "Users", document.id), {
+            profilePic: downloadURL
+          }).then(()=>{
+            setUserImageURL(downloadURL)
+            setIsLoading(false)
+          })
+        })
+      }) 
+    }catch(e) {
+      Alert.alert(e)
+      console.log(e)
+      setIsLoading(false)
+    }
+  }
+
   useEffect(() => {
     if(!user) {
       return
     }
-    const userRef = collection(db, "Users")
-    const queryResult = query(userRef,where("email", "==", user.email)) 
     DocFinder(queryResult)
   },[])
 
@@ -56,7 +105,7 @@ const ProfileScreen = ({navigation}) => {
           <Text className="text-[#d60e45]">{username}</Text>
         </Text>
       </View>
-      <TouchableOpacity className="rounded-md bg-gray-400 items-center justify-center mx-10 mb-10">
+      <TouchableOpacity className="rounded-md bg-gray-400 items-center justify-center mx-10 mb-10" onPress={pickImage}>
         <Ionicons name="camera" size={50} color="white" />
       </TouchableOpacity>
       <View className="items-center">
