@@ -36,3 +36,4 @@ export const auth = initializeAuth(app, {
 export const db = initializeFirestore(app, {
     experimentalForceLongPolling: true
 })
+export const userRef = collection(db, "Users")

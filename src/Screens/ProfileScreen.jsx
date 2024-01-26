@@ -1,7 +1,7 @@
 import { View, Text, Image, TouchableOpacity, Alert, ActivityIndicator } from 'react-native'
 import React, { useContext, useEffect, useState } from 'react'
 import { signOut } from '@firebase/auth'
-import { auth, db } from '../../firebase/config'
+import { auth, db, userRef } from '../../firebase/config'
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext'
 import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/firestore'
 import {Ionicons} from "@expo/vector-icons"
@@ -18,7 +18,6 @@ const ProfileScreen = ({navigation}) => {
 
   const {username, userEmail} = userData
 
-  const userRef = collection(db, "Users")
   const queryResult = query(userRef,where("email", "==", user.email)) 
 
   const setValue = (key, value) => {
