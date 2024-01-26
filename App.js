@@ -61,9 +61,13 @@ const AuthStack = () => {
 const MainStack = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen}/>
+      <Stack.Screen name="Home" component={HomeScreen} options={{title: "Let's Chat"}}/>
       <Stack.Screen name="Profile" component={ProfileScreen} />
-      <Stack.Screen name="Search" component={SearchScreen} />
+      <Stack.Screen 
+        name="Search" 
+        component={SearchScreen} 
+        options={{title: "With whom"}}
+      />
     </Stack.Navigator>
   )
 }

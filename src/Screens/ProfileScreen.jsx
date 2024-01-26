@@ -9,7 +9,7 @@ import * as ImagePicker from 'expo-image-picker';
 import {ref, getStorage, uploadBytes, getDownloadURL} from "firebase/storage"
 
 const ProfileScreen = ({navigation}) => {
-  const {user,setUser, setUserAvatarURL} = useContext(AuthenticatedUserContext)
+  const {user,setUser, setUserAvatarURL, userAvatarURL} = useContext(AuthenticatedUserContext)
   const storage = getStorage()
 
   const [userData, setUserData] = useState({username: "", userEmail: ""})
@@ -87,7 +87,7 @@ const ProfileScreen = ({navigation}) => {
       return
     }
     DocFinder(queryResult)
-  },[])
+  },[userAvatarURL])
 
   const handleSignOut = () => {
     signOut(auth).then(()=>{
