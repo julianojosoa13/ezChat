@@ -9,6 +9,7 @@ import HomeScreen from './src/Screens/HomeScreen';
 import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from './firebase/config';
 import ProfileScreen from './src/Screens/ProfileScreen';
+import SearchScreen from './src/Screens/SearchScreen';
 
 const loadingGIF = require("./assets/loading.gif")
 
@@ -62,6 +63,7 @@ const MainStack = () => {
     <Stack.Navigator>
       <Stack.Screen name="Home" component={HomeScreen}/>
       <Stack.Screen name="Profile" component={ProfileScreen} />
+      <Stack.Screen name="Search" component={SearchScreen} />
     </Stack.Navigator>
   )
 }
