@@ -10,6 +10,7 @@ import { onAuthStateChanged } from '@firebase/auth';
 import { auth } from './firebase/config';
 import ProfileScreen from './src/Screens/ProfileScreen';
 import SearchScreen from './src/Screens/SearchScreen';
+import ChatScreen from './src/Screens/ChatScreen';
 
 const loadingGIF = require("./assets/loading.gif")
 
@@ -67,6 +68,10 @@ const MainStack = () => {
         name="Search" 
         component={SearchScreen} 
         options={{title: "With whom"}}
+      />
+      <Stack.Screen
+        name="Chat"
+        component={ChatScreen}
       />
     </Stack.Navigator>
   )

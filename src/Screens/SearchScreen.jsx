@@ -7,7 +7,7 @@ import { getDocs, query, where } from 'firebase/firestore'
 const squirrel = require("../../assets/squirrel-no-bg.png")
 const userAvatar = require("../../assets/man.png")
 
-const SearchScreen = () => {
+const SearchScreen = ({navigation}) => {
   const [searchFriend, setSearchFriend] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const [found, setFound] = useState(false)
@@ -71,7 +71,9 @@ const SearchScreen = () => {
                     keyExtractor={(item) => item.username}
                     renderItem={({item}) => {
                         return (
-                            <TouchableOpacity >
+                            <TouchableOpacity 
+                                onPress={() => navigation.replace("Chat", {friendName: item.username, friendAvatar: item.profilePic})}
+                            >
                                 <View className="flex-row items-center space-x-4 bg-gray-100 px-2 py-2 rounded-lg">
                                     {item.profilePic!== undefined? (
                                         <Image 
