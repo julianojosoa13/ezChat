@@ -72,6 +72,7 @@ const MainStack = () => {
       <Stack.Screen
         name="Chat"
         component={ChatScreen}
+        options={{title: ""}}
       />
     </Stack.Navigator>
   )

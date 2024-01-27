@@ -37,3 +37,4 @@ export const db = initializeFirestore(app, {
     experimentalForceLongPolling: true
 })
 export const userRef = collection(db, "Users")
+export const chatRef = collection(db, "Chats")
