@@ -1,9 +1,10 @@
-import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, Image, FlatList } from 'react-native'
 import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {MaterialCommunityIcons,MaterialIcons} from "@expo/vector-icons";
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext';
 import { Timestamp, addDoc, collection, getDocs, query, updateDoc, where, doc, onSnapshot } from 'firebase/firestore';
 import { chatRef, db } from '../../firebase/config';
+import MessageItem from '../Components/MessageItem';
 
 const defaultAvatar = require("../../assets/man.png")
 
@@ -119,11 +120,36 @@ const ChatScreen = ({navigation, route}) => {
     }
   }, [])
 
-  console.log("Messages :>> ", messages)
+  useEffect(()=> {
+    setIsListReady(true)
+  }, [messages])
+
+  console.log("Messages :>> ", messages[0])
 
   return (
     <View>
-      <View className="h-[90%]"></View>
+      <View className="h-[90%]">
+        {messages[0] !== undefined && (
+          <FlatList
+            initialNumToRender={10}
+            ref={flatListRef}
+            onContentSizeChange={() => {
+              if(isListReady) {
+                flatListRef.current.scrollToEnd({
+                  animated: true
+                })
+              }
+            }}
+            data={messages[0]}
+            keyExtractor={(item) => item.timestamp}
+            renderItem={({item}) => {
+              return (
+                <MessageItem item={item} sender={sender} />
+              )
+            }}
+          />
+        )}
+      </View>
       <View className="h-[10%] flex-row items-center mx-3 space-x-3">
         <TextInput
           className="bg-white rounded-xl p-2 flex-1 text-gray-700 h-12" 
