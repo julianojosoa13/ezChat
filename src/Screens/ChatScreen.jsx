@@ -1,8 +1,8 @@
 import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native'
-import React, { useContext, useLayoutEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {MaterialCommunityIcons,MaterialIcons} from "@expo/vector-icons";
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext';
-import { Timestamp, addDoc, collection, getDocs, query, updateDoc, where, doc } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, getDocs, query, updateDoc, where, doc, onSnapshot } from 'firebase/firestore';
 import { chatRef, db } from '../../firebase/config';
 
 const defaultAvatar = require("../../assets/man.png")
@@ -89,6 +89,37 @@ const ChatScreen = ({navigation, route}) => {
       }
     })
   }, [])
+
+  useEffect(()=> {
+    const fetchMessages = async () => {
+      const querySnapshot = await getDocs(queryResult)
+      const querySnapshot2 = await getDocs(queryResult2)
+
+      if(!querySnapshot.empty  || !querySnapshot2.empty) {
+        let allMessages = querySnapshot.docs.map((doc) => doc.data().conversation)
+        allMessages = allMessages.concat(
+          querySnapshot2.docs.map((doc) => doc.data().conversation)
+        )
+        allMessages = allMessages.sort((a,b) => a.timestamp?.seconds - b.timestamp?.seconds)
+        setMessages(allMessages)
+      }
+    }
+    const unsub = onSnapshot(queryResult, (snapshot) => {
+      const allMessages = snapshot.docs.map((doc) => doc.data().conversation)
+      setMessages(allMessages)
+    })
+    const unsub2 = onSnapshot(queryResult2, (snapshot) => {
+      const allMessages = snapshot.docs.map((doc) => doc.data().conversation)
+      setMessages(allMessages)
+    } )
+    fetchMessages()
+    return () => {
+      unsub()
+      unsub2()
+    }
+  }, [])
+
+  console.log("Messages :>> ", messages)
 
   return (
     <View>
