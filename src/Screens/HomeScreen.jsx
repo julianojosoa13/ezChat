@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, Image } from 'react-native'
+import { View, Text, TouchableOpacity, Image, ActivityIndicator, FlatList } from 'react-native'
 import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import {Entypo} from "@expo/vector-icons"
 import { signOut } from '@firebase/auth'
@@ -6,6 +6,7 @@ import { auth, chatRef, userRef } from '../../firebase/config'
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext'
 import { getDocs, onSnapshot, query, where } from 'firebase/firestore'
 import { combineData, sortLastMessage } from '../Utils'
+import ChatItem from '../Components/ChatItem'
 
 const userAvatar = require("../../assets/man.png")
 
@@ -104,6 +105,7 @@ const HomeScreen = ({navigation}) => {
     let latestMessage = []
 
     const unsubscribe = friends.map((friend) => {
+      setIsLoading(true)
       const queryResult = query(userRef, where("username", "==", friend))
       const unsubfriend = onSnapshot(queryResult, (querySnapshot) => {
         querySnapshot.forEach(doc => {
@@ -144,7 +146,7 @@ const HomeScreen = ({navigation}) => {
           setLastMessages([...latestMessage])
           })
       })
-      
+      setIsLoading(false)
       return () => {
         unsubfriend()
         unsubChat()
@@ -155,20 +157,38 @@ const HomeScreen = ({navigation}) => {
     return () => unsubscribe.forEach(unsub => unsub())
   }, [friends])
 
-  const sortedLastMessage = lastMessages.sort(sortLastMessage)
+  const sortedLastMessage = lastMessages.sort()
   const combinedData = combineData(friendAvatar, sortedLastMessage)
 
+  console.log("CombinedData :>> ", combinedData)
+
   return (
-    <View className='flex-1'>
-      <View className='flex-row-reverse absolute bottom-14 right-5'>
-        <TouchableOpacity 
-          className='bg-orange-500 h-16 w-16 rounded-full text-center items-center justify-center'
-          onPress={() => navigation.navigate("Search")}
-        >
-          <Entypo name="chat" size={30} color="red" />
-        </TouchableOpacity>
+    <>
+      {isLoading? (
+        <View className="items-center justify-center h-full">
+          <ActivityIndicator size={"large"} color="#D44A00"/>
+        </View>
+      ): (
+        <FlatList 
+          data={combinedData}
+          renderItem={({item}) => {
+            return (
+              <ChatItem navigation={navigation} friend={item}/>
+            )
+          }}
+        />
+      )}
+      <View className='flex-1'>
+        <View className='flex-row-reverse absolute bottom-14 right-5'>
+          <TouchableOpacity 
+            className='bg-orange-500 h-16 w-16 rounded-full text-center items-center justify-center'
+            onPress={() => navigation.navigate("Search")}
+          >
+            <Entypo name="chat" size={30} color="red" />
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
+    </>
   )
 }
 
