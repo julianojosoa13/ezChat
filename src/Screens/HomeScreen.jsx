@@ -13,7 +13,7 @@ const HomeScreen = ({navigation}) => {
   const username = user.email.split('@')[0]
 
   const [friends, setFriends] = useState([])
-  const [friendAvatar, setFriendAvater] = useState([])
+  const [friendAvatar, setFriendAvatar] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const [lastMessages, setLastMessages] = useState([])
 
@@ -64,8 +64,8 @@ const HomeScreen = ({navigation}) => {
         querySnapshot.forEach((doc)=> {
           if(doc.data().chatters.includes(username)) {
             const chats = doc.data().chatters
-            const friends = chats.replace(username, "").replace("xx", "").replace(username, "")
-            if(friends !== "") friendsArray.push(friends)
+            const friend = chats.replace(username, "").replace("xx", "").replace(username, "")
+            if(friend !== "") friendsArray.push(friend)
   
             friendsArray = [...new Set(friendsArray)]
             setFriends(friendsArray)
@@ -78,9 +78,9 @@ const HomeScreen = ({navigation}) => {
         querySnapshot.forEach((doc)=> {
           if(doc.data().chatters.includes(username)) {
             const chats = doc.data().chatters
-            const friends = chats.replace(username, "").replace("xx", "").replace(username, "")
+            const friend = chats.replace(username, "").replace("xx", "").replace(username, "")
 
-            if(friends !== "") friendsArray.push(friends)
+            if(friend !== "") friendsArray.push(friend)
   
             friendsArray = [...new Set(friendsArray)]
             setFriends(friendsArray)
@@ -97,8 +97,64 @@ const HomeScreen = ({navigation}) => {
     fetchLoggedUserChats()
   }, [])
 
-  
-  console.log("Friends :>> ", friends)
+  useEffect(()=> {
+    if(!user) return
+    let avatarsArray = []
+    let latestMessage = []
+
+    const unsubscribe = friends.map((friend) => {
+      const queryResult = query(userRef, where("username", "==", friend))
+      const unsubfriend = onSnapshot(queryResult, (querySnapshot) => {
+        querySnapshot.forEach(doc => {
+          const {profilePic, email} = doc.data()
+          avatarsArray.push({name:friend, avatar: profilePic, email})
+          setFriendAvatar([...avatarsArray])
+        })
+      })
+      const queryResult2 = query(chatRef, where("chatters", "==", `${username}xx${friend}`))
+      const queryResult3 = query(chatRef, where("chatters", "==", `${friend}xx${username}`))
+      const unsubChat = onSnapshot(queryResult2, (querySnapshot) => {
+        querySnapshot.forEach(doc => {
+          const conversation = doc.data().conversation
+          let lastMessage = {}
+          if(conversation && conversation.length > 0) {
+            lastMessage = conversation[conversation.length - 1]
+          }
+          
+          latestMessage.push({
+            chatters: doc.data().chatters,
+            message: lastMessage
+          })
+          setLastMessages([...latestMessage])
+          })
+      })
+      const unsubChat2 = onSnapshot(queryResult3, (querySnapshot) => {
+        querySnapshot.forEach(doc => {
+          const conversation = doc.data().conversation
+          let lastMessage = {}
+          if(conversation && conversation.length > 0) {
+            lastMessage = conversation[conversation.length - 1]
+          }
+          
+          latestMessage.push({
+            chatters: doc.data().chatters,
+            message: lastMessage
+          })
+          setLastMessages([...latestMessage])
+          })
+      })
+      
+      return () => {
+        unsubfriend()
+        unsubChat()
+        unsubChat2()
+      }
+    })
+
+    return () => unsubscribe.forEach(unsub => unsub())
+  }, [friends])
+
+  console.log('Last messages :>>> ', JSON.stringify(lastMessages))
 
   return (
     <View className='flex-1'>
