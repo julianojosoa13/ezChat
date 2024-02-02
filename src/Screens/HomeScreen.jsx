@@ -1,16 +1,21 @@
 import { View, Text, TouchableOpacity, Image } from 'react-native'
-import React, { useContext, useEffect, useLayoutEffect } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import {Entypo} from "@expo/vector-icons"
 import { signOut } from '@firebase/auth'
-import { auth, userRef } from '../../firebase/config'
+import { auth, chatRef, userRef } from '../../firebase/config'
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext'
-import { getDocs, query, where } from 'firebase/firestore'
+import { getDocs, onSnapshot, query, where } from 'firebase/firestore'
 
 const userAvatar = require("../../assets/man.png")
 
 const HomeScreen = ({navigation}) => {
   const {user, userAvatarURL, setUserAvatarURL} = useContext(AuthenticatedUserContext)
-  console.log(userAvatarURL)
+  const username = user.email.split('@')[0]
+
+  const [friends, setFriends] = useState([])
+  const [friendAvatar, setFriendAvater] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
+  const [lastMessages, setLastMessages] = useState([])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -44,6 +49,56 @@ const HomeScreen = ({navigation}) => {
     const queryResult = query(userRef, where("email", "==", user.email))
     DocFinder(queryResult)
   }, [])
+
+  useEffect(() => {
+    if(!user) return
+    const fetchLoggedUserChats = async() => {
+      setIsLoading(true)
+      const queryResult = query(chatRef, where("chatters", '>=',`${username}`), where("chatters", "<=", `${username}` + '\uf8ff' ))
+      const queryResult2 = query(chatRef, where("chatters", "<=", `xx${username}`))
+      
+      let friendsArray = []
+
+      const unsubscribe = onSnapshot(queryResult, (querySnapshot)=> {
+        setIsLoading(false)
+        querySnapshot.forEach((doc)=> {
+          if(doc.data().chatters.includes(username)) {
+            const chats = doc.data().chatters
+            const friends = chats.replace(username, "").replace("xx", "").replace(username, "")
+            if(friends !== "") friendsArray.push(friends)
+  
+            friendsArray = [...new Set(friendsArray)]
+            setFriends(friendsArray)
+          }
+        })
+      })
+
+      const unsubscribe2 = onSnapshot(queryResult2, (querySnapshot)=> {
+        setIsLoading(false)
+        querySnapshot.forEach((doc)=> {
+          if(doc.data().chatters.includes(username)) {
+            const chats = doc.data().chatters
+            const friends = chats.replace(username, "").replace("xx", "").replace(username, "")
+
+            if(friends !== "") friendsArray.push(friends)
+  
+            friendsArray = [...new Set(friendsArray)]
+            setFriends(friendsArray)
+          }
+        })
+      })
+      
+      return () => {
+        unsubscribe()
+        unsubscribe2()
+      }
+    }
+
+    fetchLoggedUserChats()
+  }, [])
+
+  
+  console.log("Friends :>> ", friends)
 
   return (
     <View className='flex-1'>
