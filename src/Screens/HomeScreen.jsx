@@ -5,6 +5,7 @@ import { signOut } from '@firebase/auth'
 import { auth, chatRef, userRef } from '../../firebase/config'
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext'
 import { getDocs, onSnapshot, query, where } from 'firebase/firestore'
+import { combineData, sortLastMessage } from '../Utils'
 
 const userAvatar = require("../../assets/man.png")
 
@@ -154,7 +155,8 @@ const HomeScreen = ({navigation}) => {
     return () => unsubscribe.forEach(unsub => unsub())
   }, [friends])
 
-  console.log('Last messages :>>> ', JSON.stringify(lastMessages))
+  const sortedLastMessage = lastMessages.sort(sortLastMessage)
+  const combinedData = combineData(friendAvatar, sortedLastMessage)
 
   return (
     <View className='flex-1'>
