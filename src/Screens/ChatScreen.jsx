@@ -5,6 +5,7 @@ import { AuthenticatedUserContext } from '../../Context/AuthenticationContext';
 import { Timestamp, addDoc, collection, getDocs, query, updateDoc, where, doc, onSnapshot } from 'firebase/firestore';
 import { chatRef, db } from '../../firebase/config';
 import MessageItem from '../Components/MessageItem';
+import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
 
 const defaultAvatar = require("../../assets/man.png")
 
@@ -76,7 +77,7 @@ const ChatScreen = ({navigation, route}) => {
         return (
           <View className="flex-row items-center">
             <TouchableOpacity onPress={() => navigation.goBack()}>
-              <MaterialIcons name="arrow-back-ios" size={30} color="black" />
+              <MaterialIcons name="arrow-back-ios" size={30} color="orange" />
             </TouchableOpacity>
             {friendAvatar !== undefined ? (
               <Image source={{uri: friendAvatar}} className="h-12 w-12 rounded-full mr-2"/>  
@@ -127,48 +128,47 @@ const ChatScreen = ({navigation, route}) => {
   console.log("Messages :>> ", messages[0])
 
   return (
-    <View>
-      <View className="h-[90%]">
+      <View className="flex-1">
         {messages[0] !== undefined && (
-          <FlatList
-            initialNumToRender={10}
-            ref={flatListRef}
-            onContentSizeChange={() => {
-              if(isListReady) {
-                flatListRef.current.scrollToEnd({
-                  animated: true
-                })
-              }
-            }}
-            data={messages[0]}
-            keyExtractor={(item) => item.timestamp}
-            renderItem={({item}) => {
-              return (
-                <MessageItem item={item} sender={sender} />
-              )
-            }}
-          />
+          <View className="flex-1">
+            <KeyboardAwareFlatList
+              initialNumToRender={10}
+              ref={flatListRef}
+              onContentSizeChange={() => {
+                if(isListReady) {
+                  flatListRef.current.scrollToEnd({
+                    animated: true
+                  })
+                }
+              }}
+              data={messages[0]}
+              keyExtractor={(item) => item.timestamp}
+              renderItem={({item}) => {
+                return (
+                  <MessageItem item={item} sender={sender} />
+                )
+              }}
+            />
+            <View className="h-14 flex-row items-center mx-3 space-x-3 mb-2">
+            <TextInput
+              className="bg-white rounded-xl p-2 flex-1 text-gray-700 h-12" 
+              placeholder='Type your message here...' 
+              multiline={true}
+              value={message}
+              onChangeText={(text) => setMessage(text)}
+            />
+            <TouchableOpacity onPress={handleSubmit}>
+              <MaterialCommunityIcons 
+                name="send-circle" 
+                size={40} 
+                color="orange" 
+                className="ml-4"
+              />
+            </TouchableOpacity>
+          </View>
+        </View>
         )}
       </View>
-      <View className="h-[10%] flex-row items-center mx-3 space-x-3">
-        <TextInput
-          className="bg-white rounded-xl p-2 flex-1 text-gray-700 h-12" 
-          placeholder='Type your message here...' 
-          multiline={true}
-          value={message}
-          onChangeText={(text) => setMessage(text)}
-        />
-        <TouchableOpacity onPress={handleSubmit}>
-          <MaterialCommunityIcons 
-            name="send-circle" 
-            size={40} 
-            color="orange" 
-            className="ml-4"
-          />
-        </TouchableOpacity>
-
-      </View>
-    </View>
   )
 }
 
