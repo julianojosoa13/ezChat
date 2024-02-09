@@ -7,6 +7,12 @@ import { collection, doc, getDocs, query, updateDoc, where } from 'firebase/fire
 import {Ionicons} from "@expo/vector-icons"
 import * as ImagePicker from 'expo-image-picker';
 import {ref, getStorage, uploadBytes, getDownloadURL} from "firebase/storage"
+import { unregisterIndieDevice } from 'native-notify'
+
+import {
+  NATIVE_NOTIFY_APP_ID,
+  NATIVE_NOTIFY_TOKEN
+} from "@env"
 
 const ProfileScreen = ({navigation}) => {
   const {user,setUser, setUserAvatarURL, userAvatarURL} = useContext(AuthenticatedUserContext)
@@ -92,6 +98,7 @@ const ProfileScreen = ({navigation}) => {
   const handleSignOut = () => {
     signOut(auth).then(()=>{
       setUser(null)
+      unregisterIndieDevice(userEmail, NATIVE_NOTIFY_APP_ID, NATIVE_NOTIFY_TOKEN);
       navigation.navigate("Login")
     }).catch((error)=>{
       Alert.alter("error", error.message)
