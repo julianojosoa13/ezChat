@@ -3,6 +3,15 @@ import React, { useContext, useEffect, useLayoutEffect, useRef, useState } from 
 import {MaterialCommunityIcons,MaterialIcons} from "@expo/vector-icons";
 import { AuthenticatedUserContext } from '../../Context/AuthenticationContext';
 import { Timestamp, addDoc, collection, getDocs, query, updateDoc, where, doc, onSnapshot } from 'firebase/firestore';
+
+
+import {
+  NATIVE_NOTIFY_APP_ID,
+  NATIVE_NOTIFY_TOKEN
+} from '@env'
+
+import axios from 'axios';
+
 import { chatRef, db } from '../../firebase/config';
 import MessageItem from '../Components/MessageItem';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
@@ -67,7 +76,30 @@ const ChatScreen = ({navigation, route}) => {
         ]
       })
     } 
+    const retryRequest = async (maxRetries = 3) => {
+      let retries = 0
+      while(retries < maxRetries) {
+        try {
+          const response = await axios.post(
+            `https://app.nativenotify.com/api/indie/notification`, 
+            {      
+              subID: `${friendEmail}`,      
+              appId: NATIVE_NOTIFY_APP_ID,      
+              appToken: NATIVE_NOTIFY_TOKEN,      
+              title: `${sender} on ezChat`,      
+              message: `${message}`
+            }
+          );
+          console.log("notification success")
+          return response
+        } catch(error) {
+          console.log("Request failed retrying...")
+          retries++
+        }
+      }
+    }
 
+    retryRequest()
     setMessage("")
   }
 

@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "ezChat",
-    "slug": "ezChat",
+    "slug": "ezchat",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,7 +21,10 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.RECORD_AUDIO"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -33,6 +36,12 @@
           "photosPermission": "The app accesses your photos to let you share them with your friends."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "92bfc589-a38c-4a1a-8833-f6a278183e65"
+      }
+    },
+    "owner": "josoajuliano"
   }
 }

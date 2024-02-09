@@ -1,9 +1,15 @@
 //import liraries
+import { registerIndieID, unregisterIndieDevice } from 'native-notify';
 import { signInWithEmailAndPassword } from '@firebase/auth';
 import React, { useContext, useState } from 'react';
 import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { auth } from '../../firebase/config';
+
+import {
+    NATIVE_NOTIFY_APP_ID,
+    NATIVE_NOTIFY_TOKEN
+} from '@env'
 
 const backImage = require("../../assets/background_signin.jpg")
 
@@ -19,7 +25,8 @@ const LoginScreen = ({navigation}) => {
             const {email, password} = values
             try {
                 const response = await signInWithEmailAndPassword(auth, email, password)
-                console.log("User :>>",response.user)
+                // console.log("User :>>",response.user)
+                registerIndieID(email,NATIVE_NOTIFY_APP_ID, NATIVE_NOTIFY_TOKEN)
             } catch(e) {
                 console.log(e)
                 Alert.alert("Error","Username or password incorrect!")
