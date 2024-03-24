@@ -161,8 +161,8 @@ const ChatScreen = ({navigation, route}) => {
 
   return (
       <View className="flex-1">
+        <View className="flex-1">
         {messages[0] !== undefined && (
-          <View className="flex-1">
             <KeyboardAwareFlatList
               initialNumToRender={10}
               ref={flatListRef}
@@ -181,7 +181,9 @@ const ChatScreen = ({navigation, route}) => {
                 )
               }}
             />
-            <View className="h-14 flex-row items-center mx-3 space-x-3 mb-2">
+            )}
+        </View>
+        <View className="h-14 flex-row items-center mx-3 space-x-3 mb-2">
             <TextInput
               className="bg-white rounded-xl p-2 flex-1 text-gray-700 h-12" 
               placeholder='Type your message here...' 
@@ -198,8 +200,6 @@ const ChatScreen = ({navigation, route}) => {
               />
             </TouchableOpacity>
           </View>
-        </View>
-        )}
       </View>
   )
 }
