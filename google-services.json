@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:138051793420:android:495676c37f7108165b7429",
+        "mobilesdk_app_id": "1:138051793420:android:24ceb89adc57dfb95b7429",
         "android_client_info": {
-          "package_name": "com.julianojosoa.eZChat"
+          "package_name": "com.julianojosoa.ezchat"
         }
       },
       "oauth_client": [],
