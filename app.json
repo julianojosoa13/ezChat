@@ -5,10 +5,10 @@
     "version": "1.0.0",
     "scheme": ["ezchat"],
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/LetsChat_logo.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/LetsChat_splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -22,7 +22,7 @@
       "package": "com.julianojosoa.eZChat",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/LetsChat_logo.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [

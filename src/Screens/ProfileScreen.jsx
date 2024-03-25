@@ -126,7 +126,7 @@ const ProfileScreen = ({navigation}) => {
         }
         
       </TouchableOpacity>
-      <View className="items-center">
+      <View className="items-center justify-center">
         <Text className="tracking-widest bg-gray-200 rounded-lg w-80 text-base py-2 px-2 mx-3 mb-5 font-light text-blue-500">{username}</Text>
         <Text className="tracking-widest bg-gray-200 rounded-lg w-80 text-base py-2 px-2 mx-3 mb-5 font-light text-blue-500">{userEmail}</Text>
       </View>
