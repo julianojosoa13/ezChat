@@ -28,6 +28,10 @@ const processAuthError = (authError) => {
         Alert.alert("Network error", "Try again later or check your Internet connexion")
     } else if (authError.message.includes("invalid-credential")) {
         Alert.alert("Invalid credentials", "Check your username or password!")
+    } else if (authError.message.includes("invalid-email")) {
+        Alert.alert("Invalid Email", "The email should be in the right format!")
+    } else {
+        Alert.alert("Unknown Error", "Try again later!")
     }
 }
 
