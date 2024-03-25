@@ -5,6 +5,7 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { createUserWithEmailAndPassword } from '@firebase/auth';
 import { auth, db } from '../../firebase/config';
 import { addDoc, collection } from '@firebase/firestore';
+import { processAuthError } from '../Utils';
 
 const backImage = require("../../assets/background_signup.jpg")
 const RegisterScreen = ({navigation}) => {
@@ -30,6 +31,7 @@ const RegisterScreen = ({navigation}) => {
                 } ) 
             } catch(e) {
                 console.log(e)
+                processAuthError(e.message)
             }
         }
     }

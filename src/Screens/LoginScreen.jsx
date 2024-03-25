@@ -10,6 +10,7 @@ import {
     NATIVE_NOTIFY_APP_ID,
     NATIVE_NOTIFY_TOKEN
 } from '@env'
+import { processAuthError } from '../Utils';
 
 const backImage = require("../../assets/background_signin.jpg")
 
@@ -29,7 +30,7 @@ const LoginScreen = ({navigation}) => {
                 registerIndieID(email,NATIVE_NOTIFY_APP_ID, NATIVE_NOTIFY_TOKEN)
             } catch(e) {
                 console.log(e)
-                Alert.alert("Error","Username or password incorrect!")
+                processAuthError(e)
             }
         }
     }
