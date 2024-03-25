@@ -99,6 +99,7 @@ const ProfileScreen = ({navigation}) => {
     signOut(auth).then(()=>{
       setUser(null)
       unregisterIndieDevice(userEmail, NATIVE_NOTIFY_APP_ID, NATIVE_NOTIFY_TOKEN);
+      console.log("unregistered")
       navigation.navigate("Login")
     }).catch((error)=>{
       Alert.alter("error", error.message)
