@@ -5,7 +5,7 @@ export default {
     "name": "ez Chat",
     "slug": "ezchat",
     "version": "1.0.0",
-    "scheme": "com@.julianojosoa.ezchat",
+    "scheme": "com.julianojosoa.ezchat",
     "orientation": "portrait",
     "icon": "./assets/LetsChat_logo.png",
     "userInterfaceStyle": "light",
