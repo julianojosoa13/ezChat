@@ -6,10 +6,10 @@ import { View, Text, Image, TextInput, TouchableOpacity, Alert } from 'react-nat
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { auth } from '../../firebase/config';
 
-import {
-    EXPO_PUBLIC_EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,
-    EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN
-} from '@env'
+// import {
+//     EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,
+//     EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN
+// } from '@env'
 import { processAuthError } from '../Utils';
 
 const backImage = require("../../assets/background_signin.jpg")
@@ -27,7 +27,7 @@ const LoginScreen = ({navigation}) => {
             try {
                 const response = await signInWithEmailAndPassword(auth, email, password)
                 // console.log("User :>>",response.user)
-                registerIndieID(email,EXPO_PUBLIC_EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN)
+                registerIndieID(email,process.env.EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, process.env.EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN)
             } catch(e) {
                 console.log(e)
                 processAuthError(e)

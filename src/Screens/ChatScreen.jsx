@@ -5,10 +5,10 @@ import { AuthenticatedUserContext } from '../../Context/AuthenticationContext';
 import { Timestamp, addDoc, collection, getDocs, query, updateDoc, where, doc, onSnapshot } from 'firebase/firestore';
 
 
-import {
-  EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,
-  EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN
-} from '@env'
+// import {
+//   EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,
+//   EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN
+// } from '@env'
 
 import axios from 'axios';
 
@@ -84,8 +84,8 @@ const ChatScreen = ({navigation, route}) => {
             `https://app.nativenotify.com/api/indie/notification`, 
             {      
               subID: `${friendEmail}`,      
-              appId: EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,      
-              appToken: EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN,      
+              appId: process.env.EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,      
+              appToken: process.env.EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN,      
               title: `${sender} on ezChat`,      
               message: `${message}`
             }
