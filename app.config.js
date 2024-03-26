@@ -1,14 +1,5 @@
 import 'dotenv/config';
 
-import {
-  EXPO_PUBLIC_FIREBASE_API_KEY,
-  EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
-  EXPO_PUBLIC_FIREBASE_PROJECT_ID,
-  EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
-  EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-  EXPO_PUBLIC_FIREBASE_APP_ID
-} from "@env"
-
 export default {
   "expo": {
     "name": "ez Chat",
@@ -55,12 +46,12 @@ export default {
       "eas": {
         "projectId": "92bfc589-a38c-4a1a-8833-f6a278183e65"
       },
-      firebaseApiKey: EXPO_PUBLIC_FIREBASE_API_KEY,
-      firebaseAuthDomain: EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
-      firebaseProjectId: EXPO_PUBLIC_FIREBASE_PROJECT_ID,
-      firebaseStorageBucket: EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
-      firebaseMessagingSenderId: EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
-      firebaseAppId: EXPO_PUBLIC_FIREBASE_APP_ID
+      firebaseApiKey: process.env.EXPO_PUBLIC_FIREBASE_API_KEY,
+      firebaseAuthDomain: process.env.EXPO_PUBLIC_FIREBASE_AUTH_DOMAIN,
+      firebaseProjectId: process.env.EXPO_PUBLIC_FIREBASE_PROJECT_ID,
+      firebaseStorageBucket: process.env.EXPO_PUBLIC_FIREBASE_STORAGE_BUCKET,
+      firebaseMessagingSenderId: process.env.EXPO_PUBLIC_FIREBASE_MESSAGING_SENDER_ID,
+      firebaseAppId: process.env.EXPO_PUBLIC_FIREBASE_APP_ID
     },
     "owner": "josoajuliano",
     "runtimeVersion": {
