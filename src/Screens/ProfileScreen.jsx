@@ -10,8 +10,8 @@ import {ref, getStorage, uploadBytes, getDownloadURL} from "firebase/storage"
 import { unregisterIndieDevice } from 'native-notify'
 
 import {
-  NATIVE_NOTIFY_APP_ID,
-  NATIVE_NOTIFY_TOKEN
+  EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,
+  EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN
 } from "@env"
 
 const ProfileScreen = ({navigation}) => {
@@ -98,7 +98,7 @@ const ProfileScreen = ({navigation}) => {
   const handleSignOut = () => {
     signOut(auth).then(()=>{
       setUser(null)
-      unregisterIndieDevice(userEmail, NATIVE_NOTIFY_APP_ID, NATIVE_NOTIFY_TOKEN);
+      unregisterIndieDevice(userEmail, EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN);
       console.log("unregistered")
       navigation.navigate("Login")
     }).catch((error)=>{

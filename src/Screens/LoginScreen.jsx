@@ -7,8 +7,8 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { auth } from '../../firebase/config';
 
 import {
-    NATIVE_NOTIFY_APP_ID,
-    NATIVE_NOTIFY_TOKEN
+    EXPO_PUBLIC_EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,
+    EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN
 } from '@env'
 import { processAuthError } from '../Utils';
 
@@ -27,7 +27,7 @@ const LoginScreen = ({navigation}) => {
             try {
                 const response = await signInWithEmailAndPassword(auth, email, password)
                 // console.log("User :>>",response.user)
-                registerIndieID(email,NATIVE_NOTIFY_APP_ID, NATIVE_NOTIFY_TOKEN)
+                registerIndieID(email,EXPO_PUBLIC_EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN)
             } catch(e) {
                 console.log(e)
                 processAuthError(e)
