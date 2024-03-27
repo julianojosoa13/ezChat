@@ -8,6 +8,7 @@ import {Ionicons} from "@expo/vector-icons"
 import * as ImagePicker from 'expo-image-picker';
 import {ref, getStorage, uploadBytes, getDownloadURL} from "firebase/storage"
 import { unregisterIndieDevice } from 'native-notify'
+import { EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN } from '../Utils/consts'
 
 // import {
 //   EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,
@@ -98,7 +99,7 @@ const ProfileScreen = ({navigation}) => {
   const handleSignOut = () => {
     signOut(auth).then(()=>{
       setUser(null)
-      unregisterIndieDevice(userEmail, process.env.EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, process.env.EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN);
+      unregisterIndieDevice(userEmail, EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN);
       console.log("unregistered")
       navigation.navigate("Login")
     }).catch((error)=>{

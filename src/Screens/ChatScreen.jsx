@@ -15,6 +15,7 @@ import axios from 'axios';
 import { chatRef, db } from '../../firebase/config';
 import MessageItem from '../Components/MessageItem';
 import { KeyboardAwareFlatList } from 'react-native-keyboard-aware-scroll-view';
+import { EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN } from '../Utils/consts';
 
 const defaultAvatar = require("../../assets/man.png")
 
@@ -84,8 +85,8 @@ const ChatScreen = ({navigation, route}) => {
             `https://app.nativenotify.com/api/indie/notification`, 
             {      
               subID: `${friendEmail}`,      
-              appId: process.env.EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,      
-              appToken: process.env.EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN,      
+              appId: EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID,      
+              appToken: EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN,      
               title: `${sender} on ezChat`,      
               message: `${message}`
             }

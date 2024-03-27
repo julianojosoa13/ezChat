@@ -11,12 +11,18 @@ import Constants from 'expo-constants';
 // https://firebase.google.com/docs/web/setup#available-libraries
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: Constants.expoConfig?.extra?.firebaseApiKey,
-  authDomain: Constants.expoConfig?.extra?.firebaseAuthDomain,
-  projectId: Constants.expoConfig?.extra?.firebaseProjectId,
-  storageBucket: Constants.expoConfig?.extra?.firebaseStorageBucket,
-  messagingSenderId: Constants.expoConfig?.extra?.firebaseMessagingSenderId,
-  appId: Constants.expoConfig?.extra?.firebaseAppId,
+  // apiKey: Constants.expoConfig?.extra?.firebaseApiKey,
+  // authDomain: Constants.expoConfig?.extra?.firebaseAuthDomain,
+  // projectId: Constants.expoConfig?.extra?.firebaseProjectId,
+  // storageBucket: Constants.expoConfig?.extra?.firebaseStorageBucket,
+  // messagingSenderId: Constants.expoConfig?.extra?.firebaseMessagingSenderId,
+  // appId: Constants.expoConfig?.extra?.firebaseAppId,
+  apiKey: "AIzaSyDQj1V8sohL3p6DzXsP9lRrEEpTtQa6IxI",
+  authDomain: "ezchat-91dc6.firebaseapp.com",
+  projectId: "ezchat-91dc6",
+  storageBucket: "ezchat-91dc6.appspot.com",
+  messagingSenderId: "138051793420",
+  appId: "1:138051793420:web:526da279aaedab235b7429",
 };
 
 // Initialize Firebase

@@ -11,6 +11,7 @@ import { auth } from '../../firebase/config';
 //     EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN
 // } from '@env'
 import { processAuthError } from '../Utils';
+import { EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN } from '../Utils/consts';
 
 const backImage = require("../../assets/background_signin.jpg")
 
@@ -27,7 +28,7 @@ const LoginScreen = ({navigation}) => {
             try {
                 const response = await signInWithEmailAndPassword(auth, email, password)
                 // console.log("User :>>",response.user)
-                registerIndieID(email,process.env.EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, process.env.EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN)
+                registerIndieID(email,EXPO_PUBLIC_NATIVE_NOTIFY_APP_ID, EXPO_PUBLIC_NATIVE_NOTIFY_TOKEN)
             } catch(e) {
                 console.log(e)
                 processAuthError(e)
