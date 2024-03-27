@@ -7,10 +7,10 @@ export default {
     "version": "1.0.0",
     "scheme": "com.julianojosoa.ezchat",
     "orientation": "portrait",
-    "icon": "./assets/LetsChat_logo.png",
+    "icon": "./assets/branding/png/logo-white.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/LetsChat_splash.png",
+      "image": "./assets/branding/png/logo-color.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -24,7 +24,7 @@ export default {
       "package": "com.julianojosoa.ezchat",
       "googleServicesFile": "./google-services.json",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/LetsChat_logo.png",
+        "foregroundImage": "./assets/branding/png/logo-white.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
